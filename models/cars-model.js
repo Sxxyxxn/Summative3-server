@@ -13,7 +13,8 @@ var CarsSchema = new Schema(
     car_image: String
   },
   {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true }
   }
 );
 

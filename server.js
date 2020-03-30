@@ -127,7 +127,7 @@ router.post("/comments", (req, res) => {
   var newComment = new Comment();
   var data = req.body;
   Object.assign(newComment, data);
-  console.log(">>> ", data);
+  console.log("+++ ", data);
 
   newComment.save().then(
     result => {
@@ -140,13 +140,24 @@ router.post("/comments", (req, res) => {
 });
 
 // READ all comments
-router.get("/comment", (req, res) => {
+router.get("/comments", (req, res) => {
   Comment.find().then(
     data => {
       res.json(data);
     },
     error => {
       res.json(error);
+    }
+  );
+});
+
+router.delete("/comments/:id", (req, res) => {
+  Comment.deleteOne({ _id: req.params.id }).then(
+    () => {
+      res.json({ result: true });
+    },
+    () => {
+      res.json({ result: false });
     }
   );
 });
