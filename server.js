@@ -139,6 +139,18 @@ router.post("/comments", (req, res) => {
   );
 });
 
+// READ all comments
+router.get("/comment", (req, res) => {
+  Comment.find().then(
+    data => {
+      res.json(data);
+    },
+    error => {
+      res.json(error);
+    }
+  );
+});
+
 //////////////////////////////////////////////////////////////////////
 // THE rest of this is dealing with unhandled routes in a nice way //
 router.get("/*", (req, res) => {
