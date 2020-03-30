@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // added to allow us to upload images to public folder
 app.use(fileUpload());
-app.use("images", express.static("public"));
+app.use(express.static("public"));
 // end init express
 
 // my functions
@@ -121,8 +121,8 @@ router.get("/cars/:id", (req, res) => {
     });
 });
 
-// POST a comment - every new comment is tied to a car name
-// car name is stored in a hidden input field inside our create comment form
+// POST a comment - every new comment  must be tied to a car name
+// car name is stored in a hidden input field inside our create new comment form
 router.post("/comments", (req, res) => {
   var newComment = new Comment();
   var data = req.body;
@@ -151,6 +151,7 @@ router.get("/comments", (req, res) => {
   );
 });
 
+// delete a comment
 router.delete("/comments/:id", (req, res) => {
   Comment.deleteOne({ _id: req.params.id }).then(
     () => {
