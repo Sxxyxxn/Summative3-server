@@ -66,6 +66,8 @@ app.use("/api", router);
 router.post("/cars", (req, res) => {
   var carModel = new Car();
 
+  console.log(">>>>>> ", req.body);
+
   if (req.files) {
     var files = Object.values(req.files);
     var uploadedFileObject = files[0];

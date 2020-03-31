@@ -9,7 +9,7 @@ var CarsSchema = new Schema(
     model: String,
     price: Number,
     year: String,
-    dodometer: String,
+    odometer: String,
     car_image: String
   },
   {
