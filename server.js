@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // added to allow us to upload images to public folder
 app.use(fileUpload());
-app.use(express.static("public"));
+app.use("/assets", express.static("public"));
 // end init express
 
 // my functions
@@ -64,7 +64,7 @@ app.use("/api", router);
 router.post("/cars", (req, res) => {
   var carModel = new Car();
 
-  console.log(">>>>>> ", req.body);
+  console.log("++++ ", req.body);
 
   if (req.files) {
     var files = Object.values(req.files);
