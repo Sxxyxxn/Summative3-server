@@ -28,9 +28,7 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
 
   objFromDB.save().then(
     response => {
-      res.json({
-        result: true
-      });
+      res.json(response);
     },
     error => {
       res.json({
