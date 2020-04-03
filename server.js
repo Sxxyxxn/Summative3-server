@@ -24,7 +24,7 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
   var data = req.body;
   Object.assign(objFromDB, data);
 
-  objFromDB.profile_image = fileName;
+  objFromDB.car_image = fileName;
 
   objFromDB.save().then(
     response => {
