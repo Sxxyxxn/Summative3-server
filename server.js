@@ -27,12 +27,12 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
   objFromDB.car_image = fileName;
 
   objFromDB.save().then(
-    response => {
+    (response) => {
       res.json(response);
     },
-    error => {
+    (error) => {
       res.json({
-        result: false
+        result: false,
       });
     }
   );
@@ -42,12 +42,12 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
 // init database stuff
 mongoose.connect(myconn.atlas, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
 
-db.on("connected", e => {
+db.on("connected", (e) => {
   console.log("+++ Mongoose connected ");
 });
 
@@ -74,10 +74,10 @@ router.post("/cars", (req, res) => {
     var newFileName = `${nowTime}_${uploadedFileName}`;
 
     uploadedFileObject.mv(`public/${newFileName}`).then(
-      params => {
+      (params) => {
         updateAfterFileUpload(req, res, carModel, newFileName);
       },
-      params => {
+      (params) => {
         updateAfterFileUpload(req, res, carModel);
       }
     );
@@ -89,10 +89,10 @@ router.post("/cars", (req, res) => {
 // READ all cars
 router.get("/cars", (req, res) => {
   Car.find().then(
-    data => {
+    (data) => {
       res.json(data);
     },
-    error => {
+    (error) => {
       res.json(error);
     }
   );
@@ -116,9 +116,22 @@ router.delete("/cars/:id", (req, res) => {
 router.get("/cars/:id", (req, res) => {
   Car.findOne({ _id: req.params.id })
     .populate({ path: "comments", options: { sort: { updatedAt: -1 } } })
-    .then(data => {
+    .then((data) => {
       res.json([data]);
     });
+});
+
+//UPDATE ONE car
+router.put("/cars/:id", (req, res) => {
+  Car.findOne({ _id: req.params.id }, function (err, objFromDB) {
+    if (err) return res.json({ result: false });
+    var data = req.body;
+    Object.assign(objFromDB, data);
+    objFromDB.save();
+    return res.json({ result: true });
+    //OR
+    // return res.send(objFromDB);
+  });
 });
 
 // POST a comment - every new comment  must be tied to a car name
@@ -130,7 +143,7 @@ router.post("/comments", (req, res) => {
   console.log("+++ ", data);
 
   newComment.save().then(
-    result => {
+    (result) => {
       return res.json(result);
     },
     () => {
@@ -142,10 +155,10 @@ router.post("/comments", (req, res) => {
 // READ all comments
 router.get("/comments", (req, res) => {
   Comment.find().then(
-    data => {
+    (data) => {
       res.json(data);
     },
-    error => {
+    (error) => {
       res.json(error);
     }
   );

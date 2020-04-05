@@ -10,7 +10,8 @@ var CarsSchema = new Schema(
     price: Number,
     year: String,
     odometer: String,
-    car_image: String
+    car_image: String,
+    seller_name: String
   },
   {
     timestamps: true,
