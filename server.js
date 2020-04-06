@@ -122,17 +122,56 @@ router.get("/cars/:id", (req, res) => {
 });
 
 //UPDATE ONE car
+//new changes
 router.put("/cars/:id", (req, res) => {
+  console.log(">>>> ", req.body);
   Car.findOne({ _id: req.params.id }, function (err, objFromDB) {
-    if (err) return res.json({ result: false });
-    var data = req.body;
-    Object.assign(objFromDB, data);
-    objFromDB.save();
-    return res.json({ result: true });
-    //OR
-    // return res.send(objFromDB);
+    if (err)
+      return res.json({
+        result: false,
+      });
+
+    if (req.files) {
+      var files = Object.values(req.files);
+      var uploadedFileObject = files[0];
+      var uploadedFileName = uploadedFileObject.name;
+      var nowTime = Date.now();
+      var newFileName = `${nowTime}_${uploadedFileName}`;
+
+      uploadedFileObject.mv(`public/${newFileName}`).then(
+        (params) => {
+          updateAfterFileUpload(req, res, objFromDB, newFileName);
+        },
+        (params) => {
+          updateAfterFileUpload(req, res, objFromDB);
+        }
+      );
+    } else {
+      updateAfterFileUpload(req, res, objFromDB);
+    }
+    /////////
   });
 });
+
+router.put("/cars/:id", (req, res) => {
+  car.findOne({ _id: req.params.id }, function (err, objFromDB) {
+    console.log(">>> ", req.body);
+    console.log("+++ ", objFromDB);
+  });
+});
+
+// old version
+// router.put("/cars/:id", (req, res) => {
+//   Car.findOne({ _id: req.params.id }, function (err, objFromDB) {
+//     if (err) return res.json({ result: false });
+//     var data = req.body;
+//     Object.assign(objFromDB, data);
+//     objFromDB.save();
+//     return res.json({ result: true });
+//     //OR
+//     // return res.send(objFromDB);
+//   });
+// });
 
 // POST a comment - every new comment  must be tied to a car name
 // car name is stored in a hidden input field inside our create new comment form
