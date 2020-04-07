@@ -4,10 +4,10 @@ var Schema = mongoose.Schema;
 var CommentsSchema = new Schema(
   {
     comment: String,
-    car_name: String
+    user_name: String,
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
