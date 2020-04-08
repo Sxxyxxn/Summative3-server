@@ -11,11 +11,11 @@ var CarsSchema = new Schema(
     year: String,
     odometer: String,
     car_image: String,
-    seller_name: String
+    seller_name: String,
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
   }
 );
 
@@ -23,7 +23,7 @@ CarsSchema.virtual("comments", {
   ref: "Comment",
   localField: "model",
   foreignField: "car_name",
-  justOne: false
+  justOne: false,
 });
 
 // singular capitalized name for the mongo collection name

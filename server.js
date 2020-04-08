@@ -124,7 +124,7 @@ router.get("/cars/:id", (req, res) => {
 //UPDATE ONE car
 //new changes
 router.put("/cars/:id", (req, res) => {
-  console.log(">>>> ", req.body);
+  console.log("+++++ ", req.body);
   Car.findOne({ _id: req.params.id }, function (err, objFromDB) {
     if (err)
       return res.json({
@@ -153,12 +153,12 @@ router.put("/cars/:id", (req, res) => {
   });
 });
 
-router.put("/cars/:id", (req, res) => {
-  car.findOne({ _id: req.params.id }, function (err, objFromDB) {
-    console.log(">>> ", req.body);
-    console.log("+++ ", objFromDB);
-  });
-});
+// router.put("/cars/:id", (req, res) => {
+//   car.findOne({ _id: req.params.id }, function (err, objFromDB) {
+//     console.log(">>> ", req.body);
+//     console.log("+++ ", objFromDB);
+//   });
+// });
 
 // old version
 // router.put("/cars/:id", (req, res) => {
@@ -179,7 +179,7 @@ router.post("/comments", (req, res) => {
   var newComment = new Comment();
   var data = req.body;
   Object.assign(newComment, data);
-  console.log("+++ ", data);
+  console.log("+++ ", newComment);
 
   newComment.save().then(
     (result) => {
@@ -213,6 +213,20 @@ router.delete("/comments/:id", (req, res) => {
       res.json({ result: false });
     }
   );
+});
+
+router.get("/comments/delete-all", (req, res) => {
+  //CAREFUL with this it works.....
+  // Comment.find()
+  //   .remove({})
+  //   .then(
+  //     () => {
+  //       res.json({ result: true });
+  //     },
+  //     () => {
+  //       res.json({ result: false });
+  //     }
+  //   );
 });
 
 //////////////////////////////////////////////////////////////////////

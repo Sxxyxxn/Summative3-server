@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var CommentsSchema = new Schema(
   {
     comment: String,
-    user_name: String,
+    car_name: String,
   },
   {
     timestamps: true,
