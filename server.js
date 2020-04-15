@@ -24,7 +24,9 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
   var data = req.body;
   Object.assign(objFromDB, data);
 
-  objFromDB.car_image = fileName;
+  if (typeof fileName === "string") {
+    objFromDB.car_image = fileName;
+  }
 
   objFromDB.save().then(
     (response) => {
@@ -124,7 +126,6 @@ router.get("/cars/:id", (req, res) => {
 //UPDATE ONE car
 //new changes
 router.put("/cars/:id", (req, res) => {
-  console.log("+++++ ", req.body);
   Car.findOne({ _id: req.params.id }, function (err, objFromDB) {
     if (err)
       return res.json({
@@ -150,6 +151,14 @@ router.put("/cars/:id", (req, res) => {
       updateAfterFileUpload(req, res, objFromDB);
     }
     /////////
+  });
+});
+
+// added route to help with debug only, _id followed by img name
+// http://localhost:4000/api/cars/updateimage/5e97822121b8b303fae3aae1/1586222939259_mazda_6.png
+router.put("/cars/updateimage/:id/:imgpath", (req, res) => {
+  Car.findOne({ _id: req.params.id }, function (err, objFromDB) {
+    updateAfterFileUpload(req, res, objFromDB, req.params.imgpath);
   });
 });
 
